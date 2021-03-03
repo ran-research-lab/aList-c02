@@ -10,12 +10,16 @@
 
 
 class AList : public List {
+private:
     ListItemType* listArray;            // Array holding list elements
     static const int DEFAULT_SIZE = 10; // Default size
     int maxSize;                        // Maximum size of list
     int listSize;                       // Current # of list items
     int curr;                           // Position of current element
 
+    // Duplicates the size of the array pointed to by listArray
+    // and update the value of maxSize.
+    void resize();
 public:
     // Constructors
     // Create a new list object with maximum size "size"
@@ -56,6 +60,8 @@ public:
 
     // Check if the list is empty
     bool isEmpty() const;
+
+
 
     string to_string() const;
 };

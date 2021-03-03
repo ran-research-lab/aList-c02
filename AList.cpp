@@ -5,16 +5,23 @@
 #include <string>
 using namespace std;
 
-
-
 AList::~AList() { delete [] listArray; }
 
 // Reinitialize the list
 void AList::clear() { listSize = curr = 0; }
 
+void AList::resize() {
+    maxSize = maxSize * 2;
+    int *tmp = new ListItemType[maxSize];
+    for(int i = 0; i < listSize; i++) tmp[i] = listArray[i];
+    delete [] listArray;
+    listArray = tmp;
+}
+
 // Insert "it" at current position
 bool AList::insert(const ListItemType& it) {
-    if (listSize >= maxSize) return false;
+    if (listSize >= maxSize) resize();
+
     // Shift elements right to make room
     for (int i = listSize; i > curr; i--)
         listArray[i] = listArray[i-1];
@@ -25,7 +32,8 @@ bool AList::insert(const ListItemType& it) {
 
 // Append "it" to list
 bool AList::append(const ListItemType& it) {
-    if (listSize >= maxSize) return false;
+    if (listSize >= maxSize) resize();
+
     listArray[listSize++] = it;
     return true;
 }
@@ -70,6 +78,8 @@ ListItemType AList::getValue() const {
 // Check if the list is empty
 bool AList::isEmpty() const { return listSize == 0; }
 
+// Returns a string of the list representation in the format < _,_|_>
+// <1,2|3>
 string AList::to_string() const {
     string res = "<";
     int i;
